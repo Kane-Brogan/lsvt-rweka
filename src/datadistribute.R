@@ -4,16 +4,13 @@
 # attempting to further improve the F-weighted score.
 
 # select the 105 (value obtained from featselect.R) highest ranked features
-cols_dont_want <- c(names(rankedordered[1:265]))
+cols_dont_want <- c(names(rankedordered[1:205]))
 
 # drop low ranked features from training and test sets
 temptrainset <-
   trainset[,!names(trainset) %in% cols_dont_want, drop = T]
 temptestset <-
   testset[, !names(testset) %in% cols_dont_want, drop = T]
-
-# store F-weighted scores in a list
-fwl <- vector()
 
 dd_highestFscore = 0
 n <- 1
@@ -22,11 +19,9 @@ n <- 1
 z <- seq(100, 1000, 100)
 b <- seq(0.3, 1.0, 0.1)
 
-# register re-sample filter and classifier
+# register re-sample filter
 resample <-
   make_Weka_filter("weka.filters.supervised.instance.Resample")
-naivebayes <-
-  make_Weka_classifier("weka.classifiers.bayes.NaiveBayes")
 
 for (x in z) {
   for (y in b) {
@@ -40,8 +35,9 @@ for (x in z) {
         na.action = NULL
       )
     
+    # register classifier
     classifier <-
-      naivebayes(class ~ ., data = rebalancedDataSet, na.action = NULL)
+      IBk(class ~ ., data = rebalancedDataSet, na.action = NULL)
     
     # evaluate accuracy of model's predictions
     pred <- predict(classifier, testset, na.action = NULL)
@@ -66,8 +62,6 @@ for (x in z) {
 results <- array(fwl, dim = c(8, 10))
 dimnames(results) <- list(b, z)
 results
-
 print(paste("Highest score:", sprintf("%.7f",  dd_highestFscore),
             "B =", hfs_bz[1], "Z =", hfs_bz[2]))
-
 dd_hscore_cf

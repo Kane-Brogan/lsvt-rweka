@@ -8,8 +8,7 @@ library(RWeka)
 # specify project file path
 setwd("C:/../../../lsvt-rweka")
 
-
-source("evalutil.R")
+source("src/evalutil.R")
 
 # load data
 trainset <-

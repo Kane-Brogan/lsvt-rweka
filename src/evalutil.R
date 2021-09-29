@@ -8,8 +8,7 @@ calc_cf <- function(actual, predicted) {
   lengthdiff <- length(actual) - length(predicted)
   
   if (lengthdiff == 0) {
-    cf <- array(0,
-                dim = c(2, 2))
+    cf <- array(0,dim = c(2, 2))
     
     for (cls in seq(1, length(actual))) {
       if (actual[cls] == 1) {

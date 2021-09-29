@@ -1,0 +1,7 @@
+> print(paste("F-weighted score =", fscore, "N=310"))
+[1] "F-weighted score = 0.65 N=310"
+
+> print(array(cf, dim = c(2, 2))) # print cf
+     [,1] [,2]
+[1,]    5    9
+[2,]    5   23

@@ -1,0 +1,8 @@
+> print(paste("Highest F-weighted score =", fs_highestFscore,
++             "N =", fs_n))
+[1] "Highest F-weighted score = 0.859259259259259 N = 45"
+
+> fs_hscorecf
+     [,1] [,2]
+[1,]   12    2
+[2,]    4   24

@@ -4,6 +4,7 @@
 # to identify the best subset of features to train a model with.
 
 fs_highestFscore <- 0
+i <- 1
 
 # controls how many features are dropped each iteration
 for (k in seq(5, 305, 5)) {
@@ -30,16 +31,23 @@ for (k in seq(5, 305, 5)) {
   cf <- calc_cf(actual, pred)
   fscore <- calc_fweighted(cf)
   
+  # save data in list for graph
+  n[[i]] <- 310 - k
+  f[[i]] <- fscore
+  
   if (fscore > fs_highestFscore) {
-    # save highest f score with corresponding cf and value of N
+    # save minimum highest f score with corresponding cf and value of N
     fs_highestFscore <- fscore
     fs_hscorecf <- cf
-    n <- 310 - k
+    fs_n <- 310 - k
   }
-  
+
+  i <- i + 1
 }
 
 print(paste("Highest F-weighted score =", fs_highestFscore,
-            " N =", n))
+            "N =", fs_n))
 
-print(array(fs_hscorecf, dim = c(2, 2))) # print matrix
+fs_hscorecf
+plot(n, f, type = "h", main = "Naive Bayes Feature Selection", 
+     xlab = "# of features (N)", ylab = "F-weighted score")
